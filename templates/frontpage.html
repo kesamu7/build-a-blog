@@ -1,49 +1,46 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block content %}
 
-    <head>
-        <title>Build-a-Blog</title>
-    </head>
+<h2>You can add a new blog post below</h2>
 
-    <body>
-        <h1>Kelvin's Blog</h1>
+<form action = "/" method="post">
+    <label>
+        New Post title.
+        <input type="text">
+    </label>
+    <br>
+    <label>New Post body.
+        <input type="text">
 
-        <form method="post">
+    </label>
+    <input type="submit" value="Submit your post.">
+</form>
+
+{% endblock %}
 
 
-            <label>
-                <div>New blog title.</div>
-                    <input type="text" name="newpost">
-            <label>
-                <div><h3>New Post</h3></div>
-                <textarea name="postbody"></textarea>
-                <input type="submit" value="Submit new post.">
-            </label>
-            <label><h2>Archived Posts</h2></label>
 
-            <br>
-            <label>
-                Post #1.
-            </label>
-            <br>
 
-            <label>
-                Post #2.
-                      <br>
-                       .
-                       .
-                       .
-            </label>
-            <br>
 
-            <label>
-                Post #10.
-            </label>
 
-        </form>
 
-    </body>
 
-</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -34,17 +34,22 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
+class NewPosts(db.Model):
+    def post(self):
+        self.write("This is the page that will show the past posts and a new post once you create a new post.")
+
 
 class MainHandler(Handler):
     def get(self):
         self.render("frontpage.html")
 
+    def post(self):
+        self.redirect("/newpost")
 
 
-# class MainHandler(webapp2.RequestHandler):
-#     def get(self):
-#         self.response.write('Hello world!')
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/newpost',NewPosts)
 ], debug=True)
