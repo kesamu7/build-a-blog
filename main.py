@@ -34,17 +34,18 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class NewPosts(db.Model):
-    def post(self):
-        self.render("newposting.html")
-
 
 class MainHandler(Handler):
     def get(self):
         self.render("frontpage.html")
 
     def post(self):
-        self.redirect("/")
+        self.redirect("/newpost")
+
+class NewPosts(Handler):
+    def get(self):
+        self.render("newposting.html")
+
 
 
 

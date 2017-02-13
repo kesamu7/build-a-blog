@@ -2,10 +2,19 @@
 
 {% block content %}
 
-<h2>Thanks for adding a post.</h2>
+<h2 style="font-family:consolas;font-size:30px">Make a new blog post.</h2>
 
-<form method="post">
-    <label>Past post 1</label>
+<form style="font-family:consolas; font-size:20px" method="post">
+    <label>
+        <div>New Post title</div>
+        <input type="text" name="title"/>
+    </label>
+    <label>
+        <div>Post body</div>
+        <textarea></textarea>
+    </label>
+    <input type="submit">
+
 
 </form>
 
