@@ -36,7 +36,7 @@ class Handler(webapp2.RequestHandler):
 
 class NewPosts(db.Model):
     def post(self):
-        self.write("This is the page that will show the past posts and a new post once you create a new post.")
+        self.render("newposting.html")
 
 
 class MainHandler(Handler):
@@ -44,7 +44,7 @@ class MainHandler(Handler):
         self.render("frontpage.html")
 
     def post(self):
-        self.redirect("/newpost")
+        self.redirect("/")
 
 
 
