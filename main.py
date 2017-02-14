@@ -43,7 +43,7 @@ class MainHandler(Handler):
         self.redirect("/newpost")
 
 class NewPosts(Handler):
-    def get(self):
+    def gett(self):
         self.render("newposting.html")
 
 
