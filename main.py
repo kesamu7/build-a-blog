@@ -35,16 +35,49 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 
+class Apost(db.Model):
+    title = db.StringProperty(required = True)
+    post_bod = db.TextProperty(required = True)
+    created = db.DateTimeProperty(auto_now_add = True)
+
+
 class MainHandler(Handler):
+
+    def render_posts(self, title="", post_bod = "", error = ""):
+        posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC")
+
+        self.render("frontpage.html", title = title, post_bod = post_bod, error=error, posts=posts)
+
+
     def get(self):
-        self.render("frontpage.html")
+        self.render_posts()
 
     def post(self):
+
         self.redirect("/newpost")
 
 class NewPosts(Handler):
-    def gett(self):
+    def get(self):
+
         self.render("newposting.html")
+
+    def post(self):
+        #Here I will either do self.render('frontpage.html' + the new post)
+        #Or I will do, self.redirect('frontpage.html' + the new post)Lets experiment and find out which one.
+        #I think that my post here needs to follow a similar path as the post in asciichan, but it needs to direct the new blog post to the frontpage.
+        title = self.request.get("title")
+        post_body = self.request.get("post_bod")
+
+        if title and post_body:
+            p = Apost(title = title, post_body = post_body)
+            p.put()
+            self.redirect("/")
+
+        else:
+            error = "Please enter a post title and some content in the post body."
+            self.render_posts(title,post_body,error)
+
+
 
 
 
