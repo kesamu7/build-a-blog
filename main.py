@@ -37,45 +37,49 @@ class Handler(webapp2.RequestHandler):
 
 class Apost(db.Model):
     title = db.StringProperty(required = True)
-    post_bod = db.TextProperty(required = True)
+    body = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
 
 class MainHandler(Handler):
 
-    def render_posts(self, title="", post_bod = "", error = ""):
+    def render_home(self,title="",body=""):
         posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC")
-
-        self.render("frontpage.html", title = title, post_bod = post_bod, error=error, posts=posts)
+        self.render("frontpage.html",title=title,body=body,posts=posts)
 
 
     def get(self):
-        self.render_posts()
+        self.render_home()
 
     def post(self):
 
         self.redirect("/newpost")
 
+
 class NewPosts(Handler):
-    def get(self):
+
+    def render_blank(self):
 
         self.render("newposting.html")
+
+    def get(self):
+
+        self.render_blank()
 
     def post(self):
         #Here I will either do self.render('frontpage.html' + the new post)
         #Or I will do, self.redirect('frontpage.html' + the new post)Lets experiment and find out which one.
         #I think that my post here needs to follow a similar path as the post in asciichan, but it needs to direct the new blog post to the frontpage.
         title = self.request.get("title")
-        post_body = self.request.get("post_bod")
+        body = self.request.get("body")
 
-        if title and post_body:
-            p = Apost(title = title, post_body = post_body)
+        if title and body:
+            p = Apost(title = title, body = body)
             p.put()
             self.redirect("/")
-
+            #We need to figure why this is redirecting to the /newpost handle and not home with both the new post and old posts
         else:
-            error = "Please enter a post title and some content in the post body."
-            self.render_posts(title,post_body,error)
+            self.render("newposting.html")
 
 
 
@@ -85,5 +89,6 @@ class NewPosts(Handler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/newpost',NewPosts)
+    ('/newpost',NewPosts),
+
 ], debug=True)

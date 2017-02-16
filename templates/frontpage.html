@@ -7,21 +7,24 @@
 <form method="post">
     <label>
         <h2 style="font-family:consolas;margin-left:350px">The 5 most recent blog posts will be listed below.</h2>
-        <ol style="font-family:consolas;font-size:15px;margin-left:350px">
-            <li>First post</li>
-            <li>Second post</li>
-            <li>Third post</li>
-            <li>Etc........</li>
-        </ol>
-    </label>
-    <br>
-    <p style="font-family:consolas; font-size:20px;margin-left:300px">Should the option to add a new post be available on the main page, so the user can add a post if they wish?</p>
 
-    <p style="font-family:consolas; font-size:20px;margin-left:300px">Or do they have to go to the new post rout to create a new post?</p>
+    </label>
+
+
+
     <hr>
     <p style="font-family:consolas; font-size:20px;margin-left:400px;margin-top:50px;">Click below to make a new post.</p>
     <input style="margin-left:500px" type="submit" value="New post.">
 </form>
+<hr>
+
+
+{% for body in posts %}
+    <div class="body">
+        <div class="title">{{body.title}}</div>
+        <pre class="body">{{body.body}}</pre>
+    </div>
+{% endfor %}
 
 {% endblock %}
 

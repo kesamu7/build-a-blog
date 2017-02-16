@@ -5,15 +5,17 @@
 <h2 style="font-family:consolas;font-size:30px">Make a new blog post.</h2>
 
 <form style="font-family:consolas; font-size:20px" method="post">
-    <label>
-        <div>New Post title</div>
+    <label>Title
+        <div class="title">{{title}}</div>
         <input type="text" name="title"/>
     </label>
-    <label>
-        <div>Post body</div>
-        <textarea></textarea>
+    <label>Body
+        <div class="body">{{body}}</div>
+        <textarea style="height:400px;width:500px"></textarea>
     </label>
-    <input type="submit">
+    <br>
+    <div class="error">{{error}}</div>
+    <input type="submit" value="Submit Post">
 
 
 </form>
