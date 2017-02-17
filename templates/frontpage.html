@@ -3,13 +3,12 @@
 {% block content %}
 
 
+<label>
+        <h2 style="font-family:consolas;margin-left:350px">The 5 most recent blog posts will be listed below.</h2>
+        {{body}}
+</label>
 
 <form method="post">
-    <label>
-        <h2 style="font-family:consolas;margin-left:350px">The 5 most recent blog posts will be listed below.</h2>
-
-    </label>
-
 
 
     <hr>
@@ -19,12 +18,6 @@
 <hr>
 
 
-{% for body in posts %}
-    <div class="body">
-        <div class="title">{{body.title}}</div>
-        <pre class="body">{{body.body}}</pre>
-    </div>
-{% endfor %}
 
 {% endblock %}
 

@@ -20,6 +20,12 @@
             Welcome to my blog.
         </h1>
         {% block content %}
+        {% for body in posts %}
+            <div class="body">
+                <div class="title">{{title.title}}</div>
+                <pre class="body">{{body.body}}</pre>
+            </div>
+        {% endfor %}
         {% endblock %}
     </body>
 

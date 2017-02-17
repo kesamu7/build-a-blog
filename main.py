@@ -17,11 +17,13 @@
 import webapp2
 import os
 import jinja2
+import logging
+import time
 
 
 from google.appengine.ext import db
 
-#jinja setup below.
+
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
@@ -43,13 +45,8 @@ class Apost(db.Model):
 
 class MainHandler(Handler):
 
-    def render_home(self,title="",body=""):
-        posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC")
-        self.render("frontpage.html",title=title,body=body,posts=posts)
-
-
     def get(self):
-        self.render_home()
+        self.render("frontpage.html")
 
     def post(self):
 
@@ -58,31 +55,36 @@ class MainHandler(Handler):
 
 class NewPosts(Handler):
 
-    def render_blank(self):
-
-        self.render("newposting.html")
+    def new_form(self,title="",body="",error=""):
+        #posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC")
+        logging.info(error)
+        self.render("newposting.html",title=title,body=body,error=error)
 
     def get(self):
 
-        self.render_blank()
+        self.new_form()
 
     def post(self):
-        #Here I will either do self.render('frontpage.html' + the new post)
-        #Or I will do, self.redirect('frontpage.html' + the new post)Lets experiment and find out which one.
-        #I think that my post here needs to follow a similar path as the post in asciichan, but it needs to direct the new blog post to the frontpage.
-        title = self.request.get("title")
-        body = self.request.get("body")
+        post_title = self.request.get("title")
+        post_bod = self.request.get("body")
 
-        if title and body:
-            p = Apost(title = title, body = body)
-            p.put()
-            self.redirect("/")
-            #We need to figure why this is redirecting to the /newpost handle and not home with both the new post and old posts
+        if post_title and post_bod:
+            new_post = Apost(body=post_bod,title=post_title)
+            new_post.put()
+            id = new_post.key().id()
+            self.redirect('/blog/{}'.format(id))
+
         else:
-            self.render("newposting.html")
+
+            error = "Please provide a title and content in the post body."
+            self.new_form(error=error)
 
 
 
+class ViewPostHandler(webapp2.RequestHandler):
+    def get(self, id):
+        p = Apost.get_by_id(int(id))
+        #replace this with some code to handle the request
 
 
 
@@ -90,5 +92,6 @@ class NewPosts(Handler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/newpost',NewPosts),
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
 
-], debug=True)
+],debug=True)
