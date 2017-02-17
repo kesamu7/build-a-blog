@@ -84,6 +84,7 @@ class NewPosts(Handler):
 class ViewPostHandler(webapp2.RequestHandler):
     def get(self, id):
         p = Apost.get_by_id(int(id))
+        print(self.response.write(p))
         #replace this with some code to handle the request
 
 
