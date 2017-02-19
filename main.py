@@ -44,9 +44,13 @@ class Apost(db.Model):
 
 
 class MainHandler(Handler):
+    def render_posts(self,title="title",body="body"):
+        posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC LIMIT 5")
+        self.render("frontpage.html", title=title,body=body,posts=posts)
 
     def get(self):
-        self.render("frontpage.html")
+        #self.render("frontpage.html")
+        self.render_posts()
 
     def post(self):
 
@@ -84,18 +88,12 @@ class NewPosts(Handler):
 class ViewPostHandler(webapp2.RequestHandler):
     def get(self, id):
         if Apost.get_by_id(int(id)) == None:
-            self.write.out("No posts with that id.")
+            self.response.write("No posts with that id.")
 
         else:
             blog_id = Apost.get_by_id(int(id))
             self.response.write(blog_id.title)
             self.response.write(blog_id.body)
-
-
-
-
-
-
 
         #replace this with some code to handle the request
 
