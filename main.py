@@ -56,7 +56,7 @@ class MainHandler(Handler):
 class NewPosts(Handler):
 
     def new_form(self,title="",body="",error=""):
-        #posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC")
+
         logging.info(error)
         self.render("newposting.html",title=title,body=body,error=error)
 
@@ -83,8 +83,20 @@ class NewPosts(Handler):
 
 class ViewPostHandler(webapp2.RequestHandler):
     def get(self, id):
-        p = Apost.get_by_id(int(id))
-        print(self.response.write(p))
+        if Apost.get_by_id(int(id)) == None:
+            self.write.out("No posts with that id.")
+
+        else:
+            blog_id = Apost.get_by_id(int(id))
+            self.response.write(blog_id.title)
+            self.response.write(blog_id.body)
+
+
+
+
+
+
+
         #replace this with some code to handle the request
 
 
