@@ -1,23 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style type="text/css">
+
+    div {text-align:center;}
+    input{text-align:center;}
+    h2 {text-align:center;}
+
+</style>
 
 <h2 style="font-family:consolas;font-size:30px">Make a new blog post.</h2>
 
 <form method="post" style="font-family:consolas; font-size:20px">
     <label>
         <div class="title">New Post Title</div>
-        <input type="text" name="title"/>
+        <div>
+            <input type="text" name="title"/>
+        </div>
+
         <br>
     </label>
 
     <label>
         <div style="margin-top:50px;" class="body">Post Content</div>
-        <textarea name="body" style="height:400px;width:500px"></textarea>
+        <div>
+            <textarea name="body" style="height:300px;width:500px"></textarea>
+        </div>
+
     </label>
     <br>
     <div class="error">{{error}}</div>
-    <input type="submit" value="Submit Post">
+    <div>
+        <input type="submit" value="Submit Post">
+    </div>
+
+
 
 
 </form>

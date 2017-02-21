@@ -46,15 +46,10 @@ class Apost(db.Model):
 class MainHandler(Handler):
     def render_posts(self,title="title",body="body"):
         posts = db.GqlQuery("SELECT * FROM Apost ORDER BY created DESC LIMIT 5")
-        self.render("frontpage.html", title=title,body=body,posts=posts)
+        self.render("frontpage.html", posts=posts)
 
     def get(self):
-        #self.render("frontpage.html")
         self.render_posts()
-
-    def post(self):
-
-        self.redirect("/newpost")
 
 
 class NewPosts(Handler):
@@ -85,24 +80,24 @@ class NewPosts(Handler):
 
 
 
-class ViewPostHandler(webapp2.RequestHandler):
+class ViewPostHandler(  Handler):
     def get(self, id):
         if Apost.get_by_id(int(id)) == None:
             self.response.write("No posts with that id.")
 
         else:
-            blog_id = Apost.get_by_id(int(id))
-            self.response.write(blog_id.title)
-            self.response.write(blog_id.body)
+            post = Apost.get_by_id(int(id))
+
+            self.render("postdisplay.html",post=post )
+
+
+
 
         #replace this with some code to handle the request
-
-
-
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/newpost',NewPosts),
-    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler),
 
 ],debug=True)
